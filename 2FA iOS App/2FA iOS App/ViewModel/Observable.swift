@@ -9,7 +9,7 @@ import Foundation
 
 class Observable<T> {
     
-    var value : T? {
+    var value : T {
         didSet {
             listener?(value)
             print("info has changed")
@@ -17,7 +17,7 @@ class Observable<T> {
     }
     private var listener: ((T?) -> Void)?
     
-    init(value: T?) {
+    init(value: T) {
         self.value = value
     }
     

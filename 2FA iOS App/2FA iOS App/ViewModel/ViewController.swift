@@ -40,6 +40,7 @@ class ViewController: UIViewController {
             displayVC.delegate = self
         }
     }
+//    Escalabilidad, inyeccion, patrones, arquitecturas, Algoritmos de manera estructurada, codigo limpio
     
     func loadData() {
         let request: NSFetchRequest<OTP> = OTP.fetchRequest()
@@ -52,12 +53,13 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return OTPs.value?.count ?? 0
+        return OTPs.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! OTPCell
-        if let code = OTPs.value?[indexPath.row].otpCode, let issuer = OTPs.value?[indexPath.row].issuer, let time = OTPs.value?[indexPath.row].time {
+        if let code = OTPs.value[indexPath.row].otpCode, let issuer = OTPs.value[indexPath.row].issuer {
+            let time = OTPs.value[indexPath.row].time
             cell.issuerLabel?.text = issuer
             cell.OTPLabel.text = code
             cell.progressBar.progress = Float(time)/Float(30)
@@ -71,7 +73,7 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: ViewControllerDelegate {
     func handleOTPInfo(OTPModel: OTP) {
         print("Añade nuevo OTP")
-        OTPs.value?.append(OTPModel)
+        OTPs.value.append(OTPModel)
         print(OTPs)
     }
 }
@@ -80,8 +82,7 @@ extension ViewController: ViewControllerDelegate {
 
 extension ViewController {
     @objc func updateTimer() {
-        guard let list = OTPs.value else { return }
-        for code in list {
+        for code in OTPs.value {
             if code.time > 0 {
                 code.time -= 1
             } else {
