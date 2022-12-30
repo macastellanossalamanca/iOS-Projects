@@ -9,7 +9,7 @@ import Foundation
 class ViewModel: ObservableObject, DataManagerDelegate {
     @Published var users: [UserModel]?
     @Published var posts: [PostModel]?
-    var manager: DataManager = DataManager()
+    var manager: DataManagerProtocol = DataManager()
     
     init() {
         manager.delegate = self

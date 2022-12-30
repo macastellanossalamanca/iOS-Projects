@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-struct DataManager {
+struct DataManager: DataManagerProtocol {
     
     weak var delegate: DataManagerDelegate?
     let persistentContainer: NSPersistentContainer
@@ -64,6 +64,7 @@ struct DataManager {
                     modelPosts.append(PostModel(userId: Int(post.userId), id: Int(post.id), title: safeTitle, body: safeBody))
                 }
             }
+            print(modelPosts)
             delegate?.handlePosts(posts: modelPosts)
         }
     }
@@ -151,4 +152,10 @@ struct DataManager {
 protocol DataManagerDelegate: AnyObject {
     func handleUsers(users: [UserModel])
     func handlePosts(posts: [PostModel])
+}
+
+protocol DataManagerProtocol {
+    var delegate: DataManagerDelegate? { get set }
+    func loadUsers()
+    func loadPosts()
 }
